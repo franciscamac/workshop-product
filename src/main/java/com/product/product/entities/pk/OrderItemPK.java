@@ -2,10 +2,7 @@ package com.product.product.entities.pk;
 
 import com.product.product.entities.Order;
 import com.product.product.entities.Product;
-import jakarta.persistence.Embeddable;
-import jakarta.persistence.JoinTable;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 
 import java.io.Serializable;
 import java.util.Objects;
@@ -14,34 +11,41 @@ import java.util.Objects;
 public class OrderItemPK implements Serializable {
     private static final long serialVersionUID = 1L;
 
+    @ManyToOne
+    @JoinColumn(name="order_id")
+    private Order order;
 
-    private Long orderId;
-    private Long productId;
+    @ManyToOne
+    @JoinColumn(name="product_id")
+    private Product product;
 
-    public Long getOrderId() {
-        return orderId;
+
+    public Order getOrder() {
+        return order;
     }
-    public void setOrderId(Long orderId) {
-        this.orderId = orderId;
+
+    public void setOrder(Order order) {
+        this.order = order;
     }
-    public Long getProductId() {
-        return productId;
+
+    public Product getProduct() {
+        return product;
     }
-    public void setProductId(Long productId) {
-        this.productId = productId;
+
+    public void setProduct(Product product) {
+        this.product = product;
     }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof OrderItemPK)) return false;
+        if (o == null || getClass() != o.getClass()) return false;
         OrderItemPK that = (OrderItemPK) o;
-        return Objects.equals(orderId, that.orderId) &&
-                Objects.equals(productId, that.productId);
+        return Objects.equals(order, that.order) && Objects.equals(product, that.product);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(orderId, productId);
+        return Objects.hash(order, product);
     }
 }
